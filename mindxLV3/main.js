@@ -22,9 +22,11 @@ app.use(morgan('combined'))
 app.use(express.json())
 app.use(cors())
 app.post("/upload",uploadMiddle.single("avatar"),(req,res)=>{
-  let a =fs.readFileSync(`./upload/img/${req.file.filename}`,"base64");
+  let result =fs.readFileSync(`./upload/img/${req.file.filename}`,"base64");
   fs.unlinkSync(`./upload/img/${req.file.filename}`)
-  return res.json(a);
+  return res.json({
+    data:`data:image/png;base64,${result}`
+  });
 })
 app.use("/",studentRoute)
 
