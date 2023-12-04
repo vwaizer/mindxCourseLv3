@@ -7,7 +7,7 @@ import express from "express"
 import morgan from "morgan"
 import fs from "fs"
 import process from "process"
-import { addStudent } from "./ultis/ultis.js"
+import { addStudent, connectToDB } from "./ultis/ultis.js"
 import cors from "cors"
 import {  makeToken, validateToken } from "./controller/validateToken.js"
 const app = express()
@@ -16,6 +16,8 @@ const p={"id":5}
 app.use(morgan('combined'))
 app.use(express.json())
 app.use(cors())
+
+
 app.post('/', (req, res) => {
   let a=fs.readFileSync("students.json");
   addStudent(...req.body,a);
@@ -26,9 +28,11 @@ app.post('/', (req, res) => {
 })
 app.post('/register',makeToken);
 app.post('/login',validateToken);
+connectToDB().then(
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
+)
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
 
 
