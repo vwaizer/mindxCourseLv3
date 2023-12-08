@@ -5,35 +5,40 @@
 // const process= require("process")
 import express from "express"
 import morgan from "morgan"
-import fs from "fs"
-import process from "process"
-import { addStudent } from "./ultis/ultis.js"
+
 import cors from "cors"
 import {  makeToken, validateToken } from "./controller/validateToken.js"
 import { databaseUnit } from "./service/database/database.js"
+import { userRoute } from "./routes/userRoute.js"
+
 const app = express()
 const port = 3000
-const p={"id":5}
+
 app.use(morgan('combined'))
 app.use(express.json())
 app.use(cors())
+app.use("/user",userRoute)
+app.use((err,req,res,next)=>{
+  if(err){
+    return res.json({
+      error:err
+    })
+  }
+})
 
-databaseUnit.run();
-// app.post('/', (req, res) => {
-//   let a=fs.readFileSync("students.json");
-//   addStudent(...req.body,a);
-  
-  
-  
-//   return res.json(JSON.parse(a));
-// })
-// app.post('/register',makeToken);
-// app.post('/login',validateToken);
+const database=databaseUnit.users;
+app.post('/',  async (req, res) => {
+  const {user,pass}=req.body;
+  database.insertOne({user,pass});
+  res.json("complete");
+})
+app.post('/register',makeToken);
+app.post('/login',validateToken);
 
-
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-  })
+databaseUnit.run()
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
 
 
 

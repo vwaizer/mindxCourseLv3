@@ -2,31 +2,30 @@ import { MongoClient } from "mongodb";
 import { config } from "dotenv";
 import process from "process";
 config();
+
 // Replace the uri string with your connection string.
 const pass = process.env.PASS;
 const user = process.env.USER;
-const uri = `mongodb+srv://${user}:${pass}@cluster0.bgfip35.mongodb.net/`;
+const uri = `mongodb+srv://${user}:${pass}@cluster0.bgfip35.mongodb.net`;
 class DataBaseService {
   constructor() {
      this.client = new MongoClient(uri);
     this.db=this.client.db(process.env.DATANAME)
   }
-  async run() {
+    run() {
     try {
-          this.client.connect();
+           this.client.connect();
     //   const users = database.collection("user");
     //   const query = { title: "Back to the Future" };
     //   const movie = await users.findOne(query);
-    await this.db.runCursorCommand(
-        {
-          ping: 1
-        }
-     )
-      console.log("ping");
+        
     } catch(error) {
       // Ensures that the client will close when you finish/error
       console.log("error",error);
     }
+  }
+   users(){
+    return this.db.collection("user");
   }
 }
 
@@ -47,4 +46,4 @@ class DataBaseService {
 // }
 export const databaseUnit=new DataBaseService();
 
-run().catch(console.dir);
+// run().catch(console.dir);
