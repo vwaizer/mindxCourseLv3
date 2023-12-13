@@ -26,6 +26,22 @@ export const   createToken =  (privateKey) =>  {
     );
   });
 };
+export const   createTokenLogin =  (data,privateKey) =>  {
+  
+  return  new  Promise((resolve, reject) => {
+     jwt.sign(
+      { username: data.username, password: data.password },
+      privateKey,
+      { expiresIn: "1h" },
+      (err, token) => {
+        if (err) {
+          reject(err.message);
+        }
+        resolve(token);
+      }
+    );
+  });
+};
 export const checkToken=(privateKey,token)=>{
   
 

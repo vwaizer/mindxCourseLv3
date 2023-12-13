@@ -27,11 +27,7 @@ app.use((err,req,res,next)=>{
 })
 
 const database=databaseUnit.users;
-app.post('/',  async (req, res) => {
-  const {user,pass}=req.body;
-  database.insertOne({user,pass});
-  res.json("complete");
-})
+
 app.post('/register',makeToken);
 app.post('/login',validateToken);
 
