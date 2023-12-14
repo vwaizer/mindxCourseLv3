@@ -65,8 +65,7 @@ export const validateRegister= validater(checkSchema({
       isEmail: false,
       custom:{
         options:  async (value,{req})=>{
-            const isExist=  await databaseUnit.users().findOne({username:value})
-            console.log(isExist);
+             const isExist=  await databaseUnit.users().findOne({username:value});
             if(isExist){
                 return true;
             }
@@ -82,10 +81,11 @@ export const validateRegister= validater(checkSchema({
       },
       custom:{
         options: async (value,{req})=>{
-          const scryptPass=bcrypt.hashSync(value,10);
-          const isExist=  await databaseUnit.users().findOne({password:scryptPass})
-          console.log(isExist);
-          if(isExist){
+          const unitLogin=await databaseUnit.users().findOne({username:req.body.username});
+          console.log(unitLogin);
+          const descryptPass=await bcrypt.compare(value,unitLogin.password);
+          console.log(descryptPass);
+          if(descryptPass){
               return true;
           }
           else{throw new Error("Error: PASSWORD");}
