@@ -17,7 +17,7 @@ export const validateToken = async (req, res, next) => {
   //   return res.json("fail")
   // }
   const result= await databaseUnit.users().findOne({username:userUnit.username});
-  return res.json({decode:result});
+  return next();
   
 };
 export const createLoginAccess= async(req,res)=>{

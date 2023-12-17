@@ -5,19 +5,22 @@
 // const process= require("process")
 import express from "express"
 import morgan from "morgan"
-
+import { config } from "dotenv";
 import cors from "cors"
 import {  makeToken, validateToken } from "./controller/validateToken.js"
 import { databaseUnit } from "./service/database/database.js"
 import { userRoute } from "./routes/userRoute.js"
+import { MediaRoute } from "./routes/uploadImg.js"
 
 const app = express()
 const port = 3000
+config();
 
 app.use(morgan('combined'))
 app.use(express.json())
 app.use(cors())
-app.use("/user",userRoute)
+app.use("/user",userRoute);
+app.use("/media",MediaRoute);
 app.use((err,req,res,next)=>{
   if(err){
     return res.json({
