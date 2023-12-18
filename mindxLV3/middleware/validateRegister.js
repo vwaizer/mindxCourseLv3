@@ -83,7 +83,7 @@ export const validateRegister= validater(checkSchema({
         options: async (value,{req})=>{
           const unitLogin=await databaseUnit.users().findOne({username:req.body.username});
           console.log(unitLogin);
-          const descryptPass=await bcrypt.compare(value,unitLogin.password);
+          const descryptPass=await bcrypt.compare(toString(value),unitLogin.password);
           console.log(descryptPass);
           if(descryptPass){
               return true;

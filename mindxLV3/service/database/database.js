@@ -27,6 +27,9 @@ class DataBaseService {
    users(){
     return this.db.collection("user");
   }
+  post(){
+    return this.db.collection("post");
+  }
 }
 
 // async function run() {

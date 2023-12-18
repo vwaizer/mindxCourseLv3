@@ -16,12 +16,19 @@ export const validateToken = async (req, res, next) => {
   // else{
   //   return res.json("fail")
   // }
+  req.decoded=userUnit;
   const result= await databaseUnit.users().findOne({username:userUnit.username});
-  return next();
+  if(result){
+    return next();
+  }
+  else{
+    throw new Error("Access token is wrong")
+  }
+  
   
 };
 export const createLoginAccess= async(req,res)=>{
-  const passKey= await bcrypt.hashSync(req.body.password,10);
+  const passKey= await bcrypt.hashSync(toString(req.body.password),10);
   const encrypt ={username:req.body.username,password: passKey };
   const token=  await createTokenLogin(encrypt,privateKey);
   return res.json({token});

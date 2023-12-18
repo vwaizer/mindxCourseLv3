@@ -11,6 +11,7 @@ import {  makeToken, validateToken } from "./controller/validateToken.js"
 import { databaseUnit } from "./service/database/database.js"
 import { userRoute } from "./routes/userRoute.js"
 import { MediaRoute } from "./routes/uploadImg.js"
+import { PostRoute } from "./routes/PostRoute.js";
 
 const app = express()
 const port = 3000
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use(cors())
 app.use("/user",userRoute);
 app.use("/media",MediaRoute);
+app.use("/post",PostRoute)
 app.use((err,req,res,next)=>{
   if(err){
     return res.json({

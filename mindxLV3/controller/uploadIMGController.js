@@ -8,6 +8,7 @@ const storage = multer.diskStorage({
       cb(null, path.resolve("img"));
     },
     filename: function (req, file, cb) {
+      
       const uniqueSuffix = Date.now();
       const filepaths=path.resolve(`img/${uniqueSuffix+file.originalname}`)
       filePath.push(filepaths);
@@ -21,14 +22,14 @@ const storage = multer.diskStorage({
 export const uploadIMGController= async(req,res)=>{
     let img=[];
     let secureuRL;
+
     for (let index = 0; index < req.filepath.length; index++) {
-        
-    
+
      secureuRL= await uploadImage(req.filepath[index]);
     fs.unlinkSync(req.filepath[index]);
     img.push(secureuRL);
         
     }
-    console.log(img);
+    
     return res.json({message:"Upload complete",img})
 }

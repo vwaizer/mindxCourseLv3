@@ -28,5 +28,9 @@ cloudinary.v2.config({
 export const deleteIMG= async(req,res)=>{
   const {imgID}=req.body;
   const result=await cloudinary.v2.api.delete_resources([imgID],{type:"upload",resource_type:"image"});
-  res.json({message:"delete complete",result})
+  const message=result.deleted;
+  console.log(message.imgID);
+  
+ 
+  return res.json({message})
 }
