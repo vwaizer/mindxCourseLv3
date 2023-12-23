@@ -1,10 +1,11 @@
-export  class Post{
-    constructor({_id,username,title,hashtag,content}){
-        this._id=_id,
-        this.username=username,
-        this.title=title,
-        this.hashtag=hashtag,
-        this.content=content
+import { ObjectId } from "mongodb";
+export  class Post {
+    constructor({ _id, user_id, content, hashtags, created_at, updated_at }) {
+      this._id = _id || new ObjectId();
+      this.user_id = user_id;
+      this.content = content;
+      this.hashtags = hashtags || [];
+      this.created_at = created_at || new Date();
+      this.updated_at = updated_at || new Date();
     }
-    
-}
+  }

@@ -30,6 +30,9 @@ class DataBaseService {
   post(){
     return this.db.collection("post");
   }
+  hashtag(){
+    return this.db.collection("hashtag");
+  }
 }
 
 // async function run() {
